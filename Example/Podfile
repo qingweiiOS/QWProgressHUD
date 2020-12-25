@@ -1,0 +1,13 @@
+use_frameworks!
+
+platform :ios, '9.0'
+
+target 'QWProgressHUD_Example' do
+  pod 'QWProgressHUD', :path => '../'
+
+  target 'QWProgressHUD_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
