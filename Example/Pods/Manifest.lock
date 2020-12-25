@@ -1,0 +1,16 @@
+PODS:
+  - QWProgressHUD (0.1.0)
+
+DEPENDENCIES:
+  - QWProgressHUD (from `../`)
+
+EXTERNAL SOURCES:
+  QWProgressHUD:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  QWProgressHUD: ea161b213647548c9fabf41d9ebd0faef4a2de3a
+
+PODFILE CHECKSUM: 2c249e6cef03352354c29b7e9a1bf0f165ab8343
+
+COCOAPODS: 1.8.4
