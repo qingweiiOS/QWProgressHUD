@@ -10,6 +10,7 @@
 #endif
 #endif
 
+#import "QWProgressHUD.h"
 
 FOUNDATION_EXPORT double QWProgressHUDVersionNumber;
 FOUNDATION_EXPORT const unsigned char QWProgressHUDVersionString[];

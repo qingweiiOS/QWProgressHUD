@@ -60,10 +60,10 @@
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		614551B564CD97893EBC0C22 /* Pods-QWProgressHUD_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QWProgressHUD_Tests.debug.xcconfig"; path = "Target Support Files/Pods-QWProgressHUD_Tests/Pods-QWProgressHUD_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		71719F9E1E33DC2100824A3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		7288C63326244045B5C480A5 /* QWProgressHUD.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = QWProgressHUD.podspec; path = ../QWProgressHUD.podspec; sourceTree = "<group>"; };
+		7288C63326244045B5C480A5 /* QWProgressHUD.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = QWProgressHUD.podspec; path = ../QWProgressHUD.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		8FB7BC79034A4995EFB0192D /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
-		BAF0E2B0A064D7CDE10C177C /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		8FB7BC79034A4995EFB0192D /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		BAF0E2B0A064D7CDE10C177C /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		BB09BDC43171413D0D318931 /* Pods-QWProgressHUD_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QWProgressHUD_Example.debug.xcconfig"; path = "Target Support Files/Pods-QWProgressHUD_Example/Pods-QWProgressHUD_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		C8ECB972D7FAAD0847BE02BC /* Pods_QWProgressHUD_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QWProgressHUD_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF11EFC0B686EE4C3F8E0396 /* Pods-QWProgressHUD_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QWProgressHUD_Example.release.xcconfig"; path = "Target Support Files/Pods-QWProgressHUD_Example/Pods-QWProgressHUD_Example.release.xcconfig"; sourceTree = "<group>"; };
@@ -193,7 +193,6 @@
 				614551B564CD97893EBC0C22 /* Pods-QWProgressHUD_Tests.debug.xcconfig */,
 				3CE51E7F6790361AC0BC0202 /* Pods-QWProgressHUD_Tests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -258,6 +257,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
