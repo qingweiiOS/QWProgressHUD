@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'QWProgressHUD'
-  s.version          = '0.1.0'
+  s.version          = '0.2.0'
   s.summary          = 'QWProgressHUD 一个轻量级的HUD，使用方便快捷'
 
 # This description is used to generate tags and improve search results.

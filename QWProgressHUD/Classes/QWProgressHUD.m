@@ -69,12 +69,12 @@ keyWindow;\
             UIUserInterfaceStyle mode = UITraitCollection.currentTraitCollection.userInterfaceStyle;
             if (mode == UIUserInterfaceStyleDark) {
                 //暗黑模式
-                [progressView setHudStyle:QWProgressHUDStyleLight];
-            }else{
                 [progressView setHudStyle:QWProgressHUDStyleDark];
+            }else{
+                [progressView setHudStyle:QWProgressHUDStyleLight];
             }
         } else {
-            [progressView setHudStyle:QWProgressHUDStyleDark];
+            [progressView setHudStyle:QWProgressHUDStyleLight];
         }
         progressView.showTime = 3.0;
     });
@@ -123,7 +123,7 @@ keyWindow;\
 }
 - (void)updateUI{
     self.titleLab.text = self.messageStr;
-    self.frame = CGRectMake(0, 0, HUDWIDTH, HUDWIDTH);
+  
     if(self.messageStr.length){
       CGSize maxSize =   [self calculate];
         if(maxSize.height<21){
@@ -136,6 +136,7 @@ keyWindow;\
         self.contentView.frame = CGRectMake(0, 0, HUDWIDTH, HUDWIDTH-20);
         self.contentView.center = CGPointMake(self.frame.size.width/2, HUDWIDTH/2-10);
     }else{
+        self.frame = CGRectMake(0, 0, HUDWIDTH, HUDWIDTH);
         self.titleLab.frame = CGRectMake(0, self.frame.size.height-20, self.frame.size.width, 0);
         self.contentView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
     }
