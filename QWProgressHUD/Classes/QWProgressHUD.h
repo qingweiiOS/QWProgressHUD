@@ -31,23 +31,28 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface QWProgressHUD : UIView
 
-///消失时间 全局
+/**
+ * 配置HUD
+ */
+///显示时间 全局 默认 ：3S
 + (void)setShowTime:(NSTimeInterval)showTime;
-/// HUD 样式 两种 亮的暗的 -  白的黑的
+/// HUD 样式 亮的暗的 - 白的黑的 默认：跟随当前模式
 + (void)setProgressStyle:(QWProgressHUDStyle)Style;
 
+
+/**
+ * 使用函数
+ */
 ///转圈圈
 + (void)show;
 ///带着文字转圈圈
 + (void)showStatus:(NSString *)status;
-
 ///画个✅
 + (void)showSuccess:(NSString *)status;
 ///画个❎
 + (void)showError:(NSString *)status;
 ///显示一段文字
 + (void)showMessage:(NSString *)status;
-
 ///画个✅
 + (void)showSuccess:(NSString *)status delayDismiss:(NSTimeInterval)delay;
 ///画个❎

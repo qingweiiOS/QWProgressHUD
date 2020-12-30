@@ -2,8 +2,8 @@
 //  QWViewController.m
 //  QWProgressHUD
 //
-//  Created by 772053795@qq.com on 12/25/2020.
-//  Copyright (c) 2020 772053795@qq.com. All rights reserved.
+//  Created by qingwei2013@foxmail.com on 12/25/2020.
+//  Copyright (c) 2020 qingwei2013@foxmail.com. All rights reserved.
 //
 
 #import "QWViewController.h"
@@ -25,6 +25,9 @@
     tag = 1;
     self.view.backgroundColor = [UIColor grayColor];
 	// Do any additional setup after loading the view, typically from a nib.
+}
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [_timeField resignFirstResponder];
 }
 - (IBAction)action_OK:(id)sender {
     CGFloat showTime = [_timeField.text floatValue];

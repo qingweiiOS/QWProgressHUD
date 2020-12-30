@@ -33,14 +33,34 @@ keyWindow = [[UIApplication sharedApplication] keyWindow];\
 }\
 keyWindow;\
 })
-#define LIGHTColor [UIColor whiteColor]
-#define DARKColor  [UIColor blackColor]
+#define QLIGHTColor [UIColor whiteColor]
+#define QDARKColor  [UIColor blackColor]
 ///默认高度宽度
 #define HUDWIDTH 80
 ///最大宽度
 #define MAXWIDTH 200
 #define kQSCREEN_H ([UIScreen mainScreen].bounds.size.height)
 #define kQSCREEN_W ([UIScreen mainScreen].bounds.size.width)
+
+typedef NS_ENUM(NSInteger, QWProgressHUDShowType) {
+    ///无
+    QWProgressHUDNone,
+    ///转圈圈
+    QWProgressHUDOngoing,
+    QWProgressHUDOngoingOrStatus,
+    ///Success
+    QWProgressHUDSuccess,
+    QWProgressHUDSuccessOrStatus,
+    /// Error
+    QWProgressHUDError,
+    QWProgressHUDErrorOrStatus,
+    /// Progress
+    QWProgressHUDProgress,
+    QWProgressHUDProgressOrStatus,
+    /// Message
+    QWProgressHUDMessage,
+};
+
 @interface QWProgressHUD()
 @property (strong, nonatomic)  UIView *contentView;
 @property (strong, nonatomic)  UILabel *titleLab;
@@ -55,6 +75,9 @@ keyWindow;\
 @property (nonatomic, assign)  BOOL isDisplay;
 @property (nonatomic, strong)  NSTimer *delayTimer;
 @property (nonatomic, assign)  NSTimeInterval delayTime;
+@property (nonatomic, assign)  QWProgressHUDShowType showType;
+@property (nonatomic, assign)  QWProgressHUDShowType  lastTimeType;
+@property (nonatomic, assign)  BOOL isResetAnimation;
 @end
 @implementation QWProgressHUD
 
@@ -93,14 +116,14 @@ keyWindow;\
     _hudStyle = hudStyle;
     if(_hudStyle == QWProgressHUDStyleLight){
         //背景和内容相反
-        self.titleLab.textColor = DARKColor;
-        self.strokeColor = DARKColor;
-        self.hudView.backgroundColor = [LIGHTColor colorWithAlphaComponent:0.7];
+        self.titleLab.textColor = QDARKColor;
+        self.strokeColor = QDARKColor;
+        self.hudView.backgroundColor = [QLIGHTColor colorWithAlphaComponent:0.7];
         _blurEffectStyle = UIBlurEffectStyleLight;
     }else{
-        self.titleLab.textColor = LIGHTColor;
-        self.strokeColor = LIGHTColor;
-        self.hudView.backgroundColor = [DARKColor colorWithAlphaComponent:0.7];
+        self.titleLab.textColor = QLIGHTColor;
+        self.strokeColor = QLIGHTColor;
+        self.hudView.backgroundColor = [QDARKColor colorWithAlphaComponent:0.7];
         _blurEffectStyle = UIBlurEffectStyleDark;
     }
 }
@@ -145,7 +168,7 @@ keyWindow;\
     self.hudView.frame = self.bounds;
 }
 #pragma mark - Private Methods
-- (void)resetUI{
+- (void)resetConfig{
     self.titleLab.text = @"";
     [self removeFromSuperview];
     [self.contentView.layer removeAllAnimations];
@@ -158,10 +181,16 @@ keyWindow;\
     self.progressLayer = nil;
     self.isDisplay = NO;
     [self.delayTimer setFireDate:[NSDate distantFuture]];
-    self.delayTime = 0.0;
 }
 - (void)showTitle:(NSString *)msg{
-    [self resetUI];
+    
+    if(_lastTimeType != _showType){
+        [self resetConfig];
+        self.isResetAnimation = YES;
+    }else{
+        self.isResetAnimation = NO;
+    }
+    _lastTimeType = _showType;
     _isDisplay = YES;
     _messageStr = msg;
     [self updateUI];
@@ -171,7 +200,7 @@ keyWindow;\
     if(msg.length == 0){
         return;
     }
-    [self resetUI];
+    [self resetConfig];
     _isDisplay = YES;
     _messageStr = msg;
     [self updateMessageUI];
@@ -204,32 +233,30 @@ keyWindow;\
 }
 - (void)dismiss{
     
+    self.delayTime = 0.0;
+    self.lastTimeType = QWProgressHUDNone;
     [UIView animateWithDuration:0.5 animations:^{
         self.alpha = 0.0;
     } completion:^(BOOL finished) {
         self.alpha = 1.0;
         self.transform = CGAffineTransformIdentity;
         if(finished){
-            [self resetUI];
-        }else{
-            NSLog(@"动画移除");
+            [self resetConfig];
         }
     }];
 }
+#pragma mark - 根据需要展示的文字 计算内容大小
 - (CGSize)calculate{
-    // 是否小于一行
     NSMutableParagraphStyle *npgStyle = [[NSMutableParagraphStyle alloc] init];
     npgStyle.alignment = NSTextAlignmentCenter;
     npgStyle.maximumLineHeight = 20;
     npgStyle.minimumLineHeight = 20;
     NSDictionary *attr = @{NSFontAttributeName:[UIFont systemFontOfSize:15],NSParagraphStyleAttributeName:npgStyle};
     CGSize size = CGSizeMake(MAXWIDTH, MAXFLOAT);
-    NSString *displayStr = [self.messageStr stringByAppendingString:@""];
+    NSString *displayStr = self.messageStr;
     CGSize maxSize = [displayStr boundingRectWithSize:size
                                               options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
                                            attributes:attr context:nil].size;
-    NSLog(@"maxSize:%@", [NSValue valueWithCGSize:maxSize]);
-   
     return maxSize;
 }
 
@@ -287,7 +314,6 @@ keyWindow;\
 }
 ///进行中动画
 - (void)drawOngoing{
-    
     self.shapeLayer = [self drawArc:2.0 storkColor:self.strokeColor startAngle:-M_PI_2 endAngle:M_PI+M_PI_4];
     [self ongoingAnimation];
 }
@@ -297,7 +323,6 @@ keyWindow;\
     CGPoint center = CGPointMake(self.contentView.frame.size.width/2, self.contentView.frame.size.height/2);
     _radius = HUDWIDTH/2-15;
     if(_messageStr.length>0){
-        
         _radius-=5;
     }
     UIBezierPath *circlePath = [UIBezierPath bezierPathWithArcCenter:center radius:_radius startAngle:startAngle endAngle:endAngle clockwise:YES];
@@ -312,8 +337,16 @@ keyWindow;\
 }
 ///进度HUD
 - (void)drawProgress:(CGFloat)progress{
-    self.shapeLayer = [self drawArc:3.0 storkColor:DARKColor startAngle:-M_PI_2 endAngle:M_PI+M_PI_2] ;
-    self.progressLayer = [self drawArc:3.0 storkColor:LIGHTColor startAngle:-M_PI_2 endAngle:-M_PI_2+M_PI*2*progress] ;
+    [self.shapeLayer removeFromSuperlayer];
+    [self.shapeLayer removeAllAnimations];
+    [self.progressLayer removeFromSuperlayer];
+    [self.progressLayer removeAllAnimations];
+    self.shapeLayer = nil;
+    self.progressLayer = nil;
+    //底环
+    self.shapeLayer = [self drawArc:3.0 storkColor:QDARKColor startAngle:-M_PI_2 endAngle:M_PI+M_PI_2];
+    //进度环
+    self.progressLayer = [self drawArc:4.0 storkColor:QLIGHTColor startAngle:-M_PI_2 endAngle:-M_PI_2+M_PI*2*progress] ;
 }
 - (void)ongoingAnimation{
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
@@ -324,7 +357,10 @@ keyWindow;\
     [self.contentView.layer addAnimation:animation forKey:@"rotate-layer"];
 }
 - (void)delayDismiss:(NSTimeInterval)delay{
-    if(delay<0){
+    if(!self.isDisplay){
+        return;
+    }
+    if(delay<=0){
         [self dismiss];
         return;
     }
@@ -335,45 +371,57 @@ keyWindow;\
 - (void)checkHiddenTime{
     _delayTime+=0.5;
     if(_delayTime>=self.showTime){
-        
         [self dismiss];
     }
-    
 }
 #pragma mark - Public Methods
 + (void)show{
     [self showStatus:@""];
 }
 + (void)showStatus:(NSString *)status{
+    [self instance].showType = status.length?QWProgressHUDOngoingOrStatus:QWProgressHUDOngoing;
     [[self instance] showTitle:status];
-    [[self instance] drawOngoing];
-}
+    if([[self instance] isResetAnimation])
+    {
+        [[self instance] drawOngoing];
+    }
 
+}
 ///画个✅
 + (void)showSuccess:(NSString *)status{
     [self showSuccess:status delayDismiss:[self instance].showTime];
 }
 + (void)showSuccess:(NSString *)status delayDismiss:(NSTimeInterval)delay{
+   
+    [self instance].showType = status.length?QWProgressHUDSuccessOrStatus:QWProgressHUDSuccess ;
     [[self instance] showTitle:status];
-    [[self instance] drawSuccess];
+    if([[self instance] isResetAnimation]) {
+        [[self instance] drawSuccess];
+    }
     [[self instance] delayDismiss:delay];
+    
 }
-
+///画个❎
 + (void)showError:(NSString *)status{
     [self showError:status delayDismiss:[self instance].showTime];
 }
-///画个❎
 + (void)showError:(NSString *)status delayDismiss:(NSTimeInterval)delay{
+    [self instance].showType =  status.length?QWProgressHUDErrorOrStatus:QWProgressHUDError;
     [[self instance] showTitle:status];
-    [[self instance] drawError];
+    if([[self instance] isResetAnimation])
+    {
+        [[self instance] drawError];
+    }
     [[self instance] delayDismiss:delay];
+
 }
 
 + (void)dismiss{
-    [[self instance] dismiss];
+    [self dismissDelay:0];
 }
 
 + (void)dismissDelay:(NSTimeInterval)delay{
+
     [[self instance] delayDismiss:delay];
 }
 
@@ -386,9 +434,7 @@ keyWindow;\
 }
 
 + (void)setShowTime:(NSTimeInterval)showTime{
-    if(showTime<=0){
-        showTime = 3;
-    }
+    if(showTime<=0)showTime = 3;
     [self instance].showTime = showTime;
 }
 
@@ -396,14 +442,12 @@ keyWindow;\
     [self showProgress:progress status:@""];
 }
 + (void)showProgress:(CGFloat)progress status:(NSString *)status{
-    if(progress>1.0){
-        progress = 1.0;
-    }
-    if(progress<0.0){
-        progress = 0.0;
-    }
+    [self instance].showType = status.length?QWProgressHUDProgressOrStatus:QWProgressHUDProgress;
+    if(progress>1.0)progress = 1.0;
+    if(progress<0.0)progress = 0.0;
     [[self instance] showTitle:status];
     [[self instance] drawProgress:progress];
+   
 }
 
 + (void)showMessage:(NSString *)status{
@@ -411,6 +455,7 @@ keyWindow;\
 }
 ///显示一段文字
 + (void)showMessage:(NSString *)status delayDismiss:(NSTimeInterval)delay{
+    [self instance].showType = QWProgressHUDMessage;
     [[self instance] showMessage:status];
     [[self instance] delayDismiss:delay];
 }

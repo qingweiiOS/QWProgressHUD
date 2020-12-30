@@ -3,7 +3,7 @@ This application makes use of the following third party libraries:
 
 ## QWProgressHUD
 
-Copyright (c) 2020 772053795@qq.com <772053795@qq.com>
+Copyright (c) 2020 qingwei2013@foxmail.com <qingwei2013@foxmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

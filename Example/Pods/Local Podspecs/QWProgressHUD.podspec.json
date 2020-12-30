@@ -1,19 +1,19 @@
 {
   "name": "QWProgressHUD",
-  "version": "0.1.0",
-  "summary": "A short description of QWProgressHUD.",
+  "version": "0.2.0",
+  "summary": "QWProgressHUD 一个轻量级的HUD，使用方便快捷",
   "description": "TODO: Add long description of the pod here.",
-  "homepage": "https://github.com/772053795@qq.com/QWProgressHUD",
+  "homepage": "https://github.com/qingweiiOS/QWProgressHUD",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
   },
   "authors": {
-    "772053795@qq.com": "772053795@qq.com"
+    "mr.qing": "qingwei2013@foxmail.com"
   },
   "source": {
-    "git": "https://github.com/772053795@qq.com/QWProgressHUD.git",
-    "tag": "0.1.0"
+    "git": "https://github.com/qingweiiOS/QWProgressHUD.git",
+    "tag": "0.2.0"
   },
   "platforms": {
     "ios": "9.0"

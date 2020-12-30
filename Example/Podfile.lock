@@ -1,5 +1,5 @@
 PODS:
-  - QWProgressHUD (0.1.0)
+  - QWProgressHUD (0.2.0)
 
 DEPENDENCIES:
   - QWProgressHUD (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  QWProgressHUD: ea161b213647548c9fabf41d9ebd0faef4a2de3a
+  QWProgressHUD: c409765d6d020a8f68695de6e1e342cba4495293
 
 PODFILE CHECKSUM: 2c249e6cef03352354c29b7e9a1bf0f165ab8343
 
